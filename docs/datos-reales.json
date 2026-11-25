@@ -1,0 +1,679 @@
+{
+  "_fuente": "Canal de YouTube @TalksPortuarios y LinkedIn de Talks Portuarios, revisados el 2026-11-25. Fechas = fecha de publicación en YouTube. 'tema' es un resumen breve basado en la descripción del video, no el resumen final.",
+  "organizacion": {
+    "nombre": "Talks Portuarios",
+    "fundadora": "Stephany Del Pino",
+    "fundacion": 2020,
+    "sede": "Callao, Perú",
+    "lema": "Espacios para aprender, compartir y conectar",
+    "whatsapp": "https://wa.me/message/CT2HK4NK3NHZE1",
+    "telefono": "+51 997 000 170",
+    "youtube": "https://www.youtube.com/@TalksPortuarios",
+    "linkedin": "https://www.linkedin.com/company/talks-portuarios/"
+  },
+  "partners": [
+    {
+      "nombre": "TECPORT",
+      "nivel": "PARTNER_FUNDADOR",
+      "web": null,
+      "logoUrl": null,
+      "nota": "Distribuidor regional de equipos portuarios (reach stackers, etc.) con operaciones en Perú, Chile y Brasil. Completar web y logo oficiales."
+    },
+    {
+      "nombre": "COEX PUCP",
+      "nivel": "ALIADO",
+      "web": null,
+      "logoUrl": null,
+      "nota": "Aliado del encuentro presencial del 16 de diciembre. Completar web y logo."
+    },
+    {
+      "nombre": "Academia Sarmiento",
+      "nivel": "ALIADO",
+      "web": "https://sarmientoacademia.com",
+      "logoUrl": null,
+      "nota": "Cursos online de logística portuaria y agenciamiento."
+    }
+  ],
+  "eventos": [
+    {
+      "titulo": "Experiencia a bordo: Visita a la Base Naval del Perú",
+      "fecha": "2026-11-29",
+      "lugar": "Base Naval del Perú, Callao",
+      "modalidad": "PRESENCIAL",
+      "cupoLimitado": true,
+      "linkInscripcion": "https://wa.me/message/CT2HK4NK3NHZE1",
+      "aliado": null
+    },
+    {
+      "titulo": "Primer encuentro presencial de Talks Portuarios: \"La Agencia Marítima\"",
+      "fecha": "2026-12-16",
+      "lugar": "POR CONFIRMAR (no publicado aún)",
+      "modalidad": "PRESENCIAL",
+      "cupoLimitado": true,
+      "linkInscripcion": "https://wa.me/message/CT2HK4NK3NHZE1",
+      "aliado": "COEX PUCP",
+      "invitados": [
+        "José Mamani"
+      ]
+    }
+  ],
+  "talks": [
+    {
+      "youtubeId": "s0zIU2v9ckA",
+      "titulo": "La Agencia General",
+      "serie": "NEXT_GENERATION",
+      "edicion": 7,
+      "fechaPublicacion": "2026-11-19",
+      "duracionSeg": 4041,
+      "duracionMin": 67,
+      "tema": "El rol del Agente General en la industria marítima, sus principales responsabilidades y las oportunidades profesionales del sector.",
+      "invitados": [
+        {
+          "nombre": "Daniel Lastra Granda",
+          "cargo": "Documentation Operation & Equipment Manager",
+          "empresa": "Transmares | ZIM Integrated Shipping Services"
+        }
+      ]
+    },
+    {
+      "youtubeId": "CqENO8uw7Yo",
+      "titulo": "Marca Profesional",
+      "serie": "EDICION_ESPECIAL",
+      "edicion": null,
+      "fechaPublicacion": "2026-10-22",
+      "duracionSeg": 5413,
+      "duracionMin": 90,
+      "tema": "Marca profesional: actitud, coherencia y comunicación en procesos de selección; cómo la marca se construye más allá del CV.",
+      "invitados": [
+        {
+          "nombre": "Jessica Mulatillo",
+          "cargo": "Psicóloga, especialista en lenguaje verbal y no verbal",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "GLlTLEAe7yg",
+      "titulo": "La ruta de un embarque: Harina de pescado",
+      "serie": "EDICION_ESPECIAL",
+      "edicion": null,
+      "fechaPublicacion": "2026-09-26",
+      "duracionSeg": 5152,
+      "duracionMin": 86,
+      "tema": "El recorrido operativo de un embarque de harina de pescado, desde la planta hasta el buque.",
+      "invitados": [
+        {
+          "nombre": "Arturo Saucedo Veliz",
+          "cargo": "Coordinador de Embarques",
+          "empresa": "Pesquera Diamante S.A.C."
+        }
+      ]
+    },
+    {
+      "youtubeId": "P46Lr1bRbDY",
+      "titulo": "People, Technology & Education",
+      "serie": "EDICION_ESPECIAL",
+      "edicion": null,
+      "fechaPublicacion": "2026-08-17",
+      "duracionSeg": 3585,
+      "duracionMin": 60,
+      "tema": "Personas, tecnología y educación en la cadena de suministro.",
+      "invitados": [
+        {
+          "nombre": "Francisco Coros de La Piedra",
+          "cargo": "Chief Supply Chain Officer",
+          "empresa": "Oben Group"
+        }
+      ]
+    },
+    {
+      "youtubeId": "_WKjKCphriw",
+      "titulo": "La Agencia de Carga",
+      "serie": "NEXT_GENERATION",
+      "edicion": 6,
+      "fechaPublicacion": "2026-07-23",
+      "duracionSeg": 5813,
+      "duracionMin": 97,
+      "tema": "El rol de la agencia de carga en el comercio exterior.",
+      "invitados": [
+        {
+          "nombre": "José Luis Coello",
+          "cargo": "Gerente Comercial",
+          "empresa": "Partners Logistics Perú S.A.C."
+        }
+      ]
+    },
+    {
+      "youtubeId": "ugXKLKEHdMI",
+      "titulo": "La Línea Naviera",
+      "serie": "NEXT_GENERATION",
+      "edicion": 5,
+      "fechaPublicacion": "2026-06-26",
+      "duracionSeg": 4689,
+      "duracionMin": 78,
+      "tema": "Cómo funciona una línea naviera y sus oportunidades profesionales.",
+      "invitados": [
+        {
+          "nombre": "Sheila Samamé",
+          "cargo": "Customer Implementation Management",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "fGzihpWjq8w",
+      "titulo": "El Agente de Aduanas",
+      "serie": "NEXT_GENERATION",
+      "edicion": 4,
+      "fechaPublicacion": "2026-05-22",
+      "duracionSeg": 7170,
+      "duracionMin": 120,
+      "tema": "El rol del agente de aduanas en el despacho de mercancías.",
+      "invitados": [
+        {
+          "nombre": "Jesús Calderón",
+          "cargo": "Gerente de Operaciones y Representante Aduanero acreditado por SUNAT",
+          "empresa": "AMT S.A.C."
+        }
+      ]
+    },
+    {
+      "youtubeId": "g41G1VpnDlg",
+      "titulo": "El Depósito Temporal",
+      "serie": "NEXT_GENERATION",
+      "edicion": 3,
+      "fechaPublicacion": "2026-04-30",
+      "duracionSeg": 4083,
+      "duracionMin": 68,
+      "tema": "Qué es un depósito temporal y su papel en la cadena logística.",
+      "invitados": [
+        {
+          "nombre": "Stephany Silva",
+          "cargo": "Ejecutiva Comercial Senior",
+          "empresa": "IMUPESA"
+        }
+      ]
+    },
+    {
+      "youtubeId": "3tNr5bgzMys",
+      "titulo": "El Terminal Portuario",
+      "serie": "NEXT_GENERATION",
+      "edicion": 2,
+      "fechaPublicacion": "2026-03-12",
+      "duracionSeg": 5333,
+      "duracionMin": 89,
+      "tema": "Cómo opera un terminal portuario.",
+      "invitados": [
+        {
+          "nombre": "Benazir Benavente",
+          "cargo": null,
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "icXn3nO3-Hc",
+      "titulo": "El Consolidador de Carga",
+      "serie": "NEXT_GENERATION",
+      "edicion": 1,
+      "fechaPublicacion": "2026-01-30",
+      "duracionSeg": 5050,
+      "duracionMin": 84,
+      "tema": "Conversación sobre el rol del consolidador de carga.",
+      "invitados": [
+        {
+          "nombre": "Olga Rimayhuaman",
+          "cargo": null,
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "2f5nfVWAr6c",
+      "titulo": "Importaciones sin contratiempos: del proveedor al despacho aduanero exitoso",
+      "serie": "TALKS",
+      "edicion": 25,
+      "fechaPublicacion": "2025-11-27",
+      "duracionSeg": 5394,
+      "duracionMin": 90,
+      "tema": "El proceso de importación de punta a punta, del proveedor al despacho aduanero.",
+      "invitados": [
+        {
+          "nombre": "Christian Cano",
+          "cargo": "Especialista en Negocios Internacionales, Comercio Exterior y Gestión Aduanera",
+          "empresa": null
+        },
+        {
+          "nombre": "Jonathan Segura",
+          "cargo": "Especialista en Negocios Internacionales, Comercio Exterior y Gestión Aduanera",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "UKOCZBs6g-8",
+      "titulo": "El puerto de Chancay como Hub de la Costa Oeste de Sudamérica",
+      "serie": "TALKS",
+      "edicion": 24,
+      "fechaPublicacion": "2025-10-23",
+      "duracionSeg": 4606,
+      "duracionMin": 77,
+      "tema": "El potencial de Chancay como hub logístico de la costa oeste de Sudamérica.",
+      "invitados": [
+        {
+          "nombre": "Jason Guillén",
+          "cargo": "Gerente de HSSEQ (Salud, Seguridad, Protección, Medio Ambiente y Calidad)",
+          "empresa": "Terminal Portuario Multipropósito de Chancay"
+        }
+      ]
+    },
+    {
+      "youtubeId": "mgdUII6VhAA",
+      "titulo": "El Régimen de Exportación Definitiva y el Drawback",
+      "serie": "TALKS",
+      "edicion": 23,
+      "fechaPublicacion": "2025-09-23",
+      "duracionSeg": 3780,
+      "duracionMin": 63,
+      "tema": "El régimen de exportación definitiva y el drawback.",
+      "invitados": [
+        {
+          "nombre": "Javier Oyarse Cruz",
+          "cargo": "Especialista en temas aduaneros y de comercio exterior",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "sQETCg-tKok",
+      "titulo": "Avería Gruesa",
+      "serie": "EDICION_ESPECIAL",
+      "edicion": null,
+      "fechaPublicacion": "2025-08-07",
+      "duracionSeg": 3395,
+      "duracionMin": 57,
+      "tema": "La avería gruesa, un concepto clave del transporte marítimo.",
+      "invitados": [
+        {
+          "nombre": "Omar Martín Córdova Cordoví",
+          "cargo": "Socio, especialista en derecho marítimo",
+          "empresa": "Rodrigo, Elías & Medrano Abogados"
+        }
+      ]
+    },
+    {
+      "youtubeId": "vqYW9Ag8mIY",
+      "titulo": "Digitalización de procesos y la inteligencia artificial en el control aduanero",
+      "serie": "TALKS",
+      "edicion": 22,
+      "fechaPublicacion": "2025-07-16",
+      "duracionSeg": 5048,
+      "duracionMin": 84,
+      "tema": "Digitalización e inteligencia artificial aplicadas al control aduanero.",
+      "invitados": [
+        {
+          "nombre": "Andrés Solano",
+          "cargo": "Presidente",
+          "empresa": "Asociación de Agentes Titulados de Aduana del Perú (AATA)"
+        }
+      ]
+    },
+    {
+      "youtubeId": "xpFCYqN84Tc",
+      "titulo": "Regulaciones y desafíos: Tendencias Aduaneras en las Importaciones 2025",
+      "serie": "TALKS",
+      "edicion": 21,
+      "fechaPublicacion": "2025-07-02",
+      "duracionSeg": 4023,
+      "duracionMin": 67,
+      "tema": "Tendencias y regulaciones aduaneras en importaciones.",
+      "invitados": [
+        {
+          "nombre": "Marco Angelo Prado",
+          "cargo": "Gerente de Negocios y Operaciones",
+          "empresa": "MP Agentes de Aduana"
+        }
+      ]
+    },
+    {
+      "youtubeId": "FpnC87DeOxo",
+      "titulo": "El arte de conectar: La relación comercial más allá del cierre de ventas",
+      "serie": "TALKS",
+      "edicion": 20,
+      "fechaPublicacion": "2025-06-18",
+      "duracionSeg": 3620,
+      "duracionMin": 60,
+      "tema": "La relación comercial más allá del cierre de ventas.",
+      "invitados": [
+        {
+          "nombre": "Alexander Ayala",
+          "cargo": "Especialista en relaciones comerciales estratégicas y negocios internacionales",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "PTEiDOc03a0",
+      "titulo": "Transforma tu cadena de suministros con IA y Machine Learning",
+      "serie": "TALKS",
+      "edicion": 19,
+      "fechaPublicacion": "2025-06-04",
+      "duracionSeg": 3034,
+      "duracionMin": 51,
+      "tema": "IA y machine learning aplicados a la cadena de suministro.",
+      "invitados": [
+        {
+          "nombre": "Walter Tumalie",
+          "cargo": "Especialista en transformación logística y tecnologías emergentes",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "gVyG_qvl1MU",
+      "titulo": "Nuevas reglas del Comercio: EEUU y sus impuestos, mitos y verdades",
+      "serie": "TALKS",
+      "edicion": 18,
+      "fechaPublicacion": "2025-05-21",
+      "duracionSeg": 4202,
+      "duracionMin": 70,
+      "tema": "Los nuevos aranceles de EE. UU.: mitos y verdades.",
+      "invitados": [
+        {
+          "nombre": "Juan Ricardo Uzquiano Rodríguez",
+          "cargo": "Especialista en Comercio Exterior y docente",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "_DFdyyUrqmo",
+      "titulo": "El arte de la Logística: Más allá del caos y la incertidumbre",
+      "serie": "TALKS",
+      "edicion": 17,
+      "fechaPublicacion": "2025-05-07",
+      "duracionSeg": 5828,
+      "duracionMin": 97,
+      "tema": "Gestionar la logística en contextos de caos e incertidumbre.",
+      "invitados": [
+        {
+          "nombre": "Rocío Mesías",
+          "cargo": "Country Customs Product Manager",
+          "empresa": "Maersk"
+        }
+      ]
+    },
+    {
+      "youtubeId": "ww5LxhIy7VI",
+      "titulo": "Operación Logística Integral: Claves para manejar productos perecibles con éxito",
+      "serie": "TALKS",
+      "edicion": 16,
+      "fechaPublicacion": "2025-04-23",
+      "duracionSeg": 4707,
+      "duracionMin": 78,
+      "tema": "Claves de la operación logística de productos perecibles.",
+      "invitados": [
+        {
+          "nombre": "Óscar Víctor Rodríguez Abad",
+          "cargo": "Subgerente de Logística y Exportaciones/Importaciones",
+          "empresa": "Terminal de Almacenamiento Paracas S.A.C. (TALPA)"
+        }
+      ]
+    },
+    {
+      "youtubeId": "MomJqQrMSVQ",
+      "titulo": "El contrato de transporte de mercancías por mar",
+      "serie": "TALKS",
+      "edicion": 15,
+      "fechaPublicacion": "2025-04-09",
+      "duracionSeg": 5138,
+      "duracionMin": 86,
+      "tema": "El contrato de transporte de mercancías por mar.",
+      "invitados": [
+        {
+          "nombre": "Omar Córdova",
+          "cargo": "Socio, abogado especialista en Derecho Marítimo",
+          "empresa": "Rodrigo, Elías & Medrano Abogados"
+        }
+      ]
+    },
+    {
+      "youtubeId": "Oj1WeCRsFUI",
+      "titulo": "Rompiendo barreras en la Logística Internacional",
+      "serie": "TALKS",
+      "edicion": 14,
+      "fechaPublicacion": "2025-03-26",
+      "duracionSeg": 4035,
+      "duracionMin": 67,
+      "tema": "Barreras y oportunidades en la logística internacional.",
+      "invitados": [
+        {
+          "nombre": "Paula Aguilar",
+          "cargo": null,
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "6T7WnVEtSgc",
+      "titulo": "Cláusulas de cobertura y exclusiones del Seguro de Transporte Marítimo",
+      "serie": "TALKS",
+      "edicion": 13,
+      "fechaPublicacion": "2025-03-13",
+      "duracionSeg": 5431,
+      "duracionMin": 91,
+      "tema": "La importancia de los seguros marítimos en el transporte de carga.",
+      "invitados": [
+        {
+          "nombre": "César Salerno",
+          "cargo": null,
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "r4Hb67X3uKo",
+      "titulo": "Inteligencia emocional: El ingrediente esencial para el éxito",
+      "serie": "TALKS",
+      "edicion": 12,
+      "fechaPublicacion": "2025-02-27",
+      "duracionSeg": 4663,
+      "duracionMin": 78,
+      "tema": "La inteligencia emocional y su impacto en el desempeño profesional y personal.",
+      "invitados": [
+        {
+          "nombre": "Alexis Zurita Ruiz",
+          "cargo": null,
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "MJPUWIsut6I",
+      "titulo": "El Operador Invisible del Comercio Exterior: El Consolidador de carga o NVOCC",
+      "serie": "TALKS",
+      "edicion": 11,
+      "fechaPublicacion": "2025-02-13",
+      "duracionSeg": 6518,
+      "duracionMin": 109,
+      "tema": "El papel del consolidador de carga o NVOCC en el comercio exterior.",
+      "invitados": [
+        {
+          "nombre": "Eduardo Bueno",
+          "cargo": null,
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "gABM2hOzP88",
+      "titulo": "El Impacto de la Experiencia al Cliente en el Sector Marítimo",
+      "serie": "TALKS",
+      "edicion": 10,
+      "fechaPublicacion": "2025-01-30",
+      "duracionSeg": 4900,
+      "duracionMin": 82,
+      "tema": "El papel clave de la experiencia al cliente en la industria marítima.",
+      "invitados": [
+        {
+          "nombre": "Stephany Del Pino",
+          "cargo": "Fundadora",
+          "empresa": "Talks Portuarios"
+        }
+      ]
+    },
+    {
+      "youtubeId": "Qng4x0Edvk0",
+      "titulo": "Logística de la carga refrigerada: De Perú para el mundo",
+      "serie": "TALKS",
+      "edicion": 9,
+      "fechaPublicacion": "2024-12-19",
+      "duracionSeg": 6589,
+      "duracionMin": 110,
+      "tema": "La logística de la carga refrigerada de exportación peruana.",
+      "invitados": [
+        {
+          "nombre": "Daniel Lastra",
+          "cargo": "Documentation Operation & Equipment Chief",
+          "empresa": "ZIM"
+        }
+      ]
+    },
+    {
+      "youtubeId": "LxL3i6kKLLU",
+      "titulo": "El arte del Feedback: Construyendo puentes en el entorno laboral",
+      "serie": "TALKS",
+      "edicion": 8,
+      "fechaPublicacion": "2024-12-05",
+      "duracionSeg": 3536,
+      "duracionMin": 59,
+      "tema": "El impacto del feedback en el entorno laboral.",
+      "invitados": [
+        {
+          "nombre": "Marie Ann García",
+          "cargo": "Especialista en Gestión del Talento y Potencial Humano",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "Ax-MQVT40IE",
+      "titulo": "Obtención de equipos de alto rendimiento, a través del Liderazgo consciente",
+      "serie": "TALKS",
+      "edicion": 7,
+      "fechaPublicacion": "2024-11-21",
+      "duracionSeg": 3039,
+      "duracionMin": 51,
+      "tema": "Cómo formar equipos de alto rendimiento a través del liderazgo consciente.",
+      "invitados": [
+        {
+          "nombre": "Carla Colmenares",
+          "cargo": "Supervisora de Experiencia al Cliente",
+          "empresa": "Maersk"
+        }
+      ]
+    },
+    {
+      "youtubeId": "1hDXHnSQu94",
+      "titulo": "Revelando las fuerzas y maniobras del Remolcaje y Practicaje",
+      "serie": "TALKS",
+      "edicion": 6,
+      "fechaPublicacion": "2024-11-07",
+      "duracionSeg": 3753,
+      "duracionMin": 63,
+      "tema": "El papel de los remolcadores y el práctico en el transporte marítimo.",
+      "invitados": [
+        {
+          "nombre": "Jorge Vidal",
+          "cargo": "Experto en operaciones portuarias",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "IokXyIAtqtQ",
+      "titulo": "Navegando en el Chartering y Agenciamiento Marítimo",
+      "serie": "TALKS",
+      "edicion": null,
+      "fechaPublicacion": "2024-10-16",
+      "duracionSeg": 4512,
+      "duracionMin": 75,
+      "tema": "Estrategias y conocimientos sobre chartering y agenciamiento marítimo.",
+      "invitados": [
+        {
+          "nombre": "Victor Zambrano",
+          "cargo": "Experto en Chartering y Agenciamiento Marítimo",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "HQttXjCPvmI",
+      "titulo": "Gestiona tu marca personal y optimiza tu perfil de LinkedIn",
+      "serie": "TALKS",
+      "edicion": null,
+      "fechaPublicacion": "2024-10-02",
+      "duracionSeg": 4613,
+      "duracionMin": 77,
+      "tema": "Estrategias para optimizar el perfil profesional en LinkedIn.",
+      "invitados": [
+        {
+          "nombre": "Gianeysi Arteaga",
+          "cargo": "Experta en marca personal y LinkedIn",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "s_28Yt-guns",
+      "titulo": "Comunicación no verbal: La clave para una entrevista exitosa",
+      "serie": "TALKS",
+      "edicion": 3,
+      "fechaPublicacion": "2024-09-25",
+      "duracionSeg": 4367,
+      "duracionMin": 73,
+      "tema": "La comunicación no verbal en entrevistas de trabajo.",
+      "invitados": [
+        {
+          "nombre": "Andrea Del Pino",
+          "cargo": "Especialista en reclutamiento (más de 14 años de experiencia)",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "5ZzzDu3dlsk",
+      "titulo": "Operadores de Comercio Exterior y su impacto en el éxito de los Negocios Internacionales",
+      "serie": "TALKS",
+      "edicion": null,
+      "fechaPublicacion": "2024-09-11",
+      "duracionSeg": 4770,
+      "duracionMin": 80,
+      "tema": "El rol de los operadores de comercio exterior y su influencia en los negocios internacionales.",
+      "invitados": [
+        {
+          "nombre": "José Mamani",
+          "cargo": "Especialista en agenciamiento marítimo, carga y aduanas",
+          "empresa": null
+        }
+      ]
+    },
+    {
+      "youtubeId": "Odk0Td7NzzQ",
+      "titulo": "Viviendo el Sueño Profesional: Cómo Superar Limitaciones y Lograr el Éxito en el Sector Marítimo",
+      "serie": "TALKS",
+      "edicion": 1,
+      "fechaPublicacion": "2024-09-08",
+      "duracionSeg": 3567,
+      "duracionMin": 59,
+      "tema": "La historia de superación de Victor Delgado en el sector marítimo.",
+      "invitados": [
+        {
+          "nombre": "Victor Delgado",
+          "cargo": null,
+          "empresa": null
+        }
+      ]
+    }
+  ]
+}

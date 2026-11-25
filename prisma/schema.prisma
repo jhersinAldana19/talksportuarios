@@ -1,0 +1,114 @@
+// Schema de Talks Portuarios. Ver modelo de datos en CLAUDE.md.
+// Tras cambiarlo: `npx prisma migrate dev --name <descripcion>`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────────────
+
+enum Serie {
+  TALKS
+  NEXT_GENERATION
+  EDICION_ESPECIAL
+}
+
+/// Todo lo que genere la IA se guarda como BORRADOR; solo un humano publica.
+enum Estado {
+  BORRADOR
+  PUBLICADO
+}
+
+enum Modalidad {
+  PRESENCIAL
+  VIRTUAL
+}
+
+enum NivelPartner {
+  PARTNER_FUNDADOR
+  PARTNER
+  ALIADO
+}
+
+// ─── Modelos ─────────────────────────────────────────────
+
+model Talk {
+  id               String     @id @default(cuid())
+  slug             String     @unique
+  titulo           String
+  serie            Serie
+  /// Número de edición dentro de la serie (p. ej. 25 → "25.ª edición"). Null si no se conoce.
+  edicion          Int?
+  youtubeId        String     @unique
+  duracionMin      Int
+  fechaPublicacion DateTime
+  resumen          String     @db.Text
+  puntosClave      String[]
+  transcripcion    String?    @db.Text
+  tags             String[]
+  estado           Estado     @default(BORRADOR)
+  /// Contenido patrocinado: se muestra con etiqueta visible (D.Leg. 1044).
+  patrocinado      Boolean    @default(false)
+  /// Resumen/puntos clave de ejemplo, pendientes de revisar con la transcripción real.
+  contenidoProvisional Boolean @default(false)
+  invitados        Invitado[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  @@index([estado, fechaPublicacion])
+}
+
+model Invitado {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  nombre       String
+  cargo        String?
+  empresa      String?
+  bio          String?  @db.Text
+  fotoUrl      String?
+  fotoPublicId String?
+  linkedinUrl  String?
+  talks        Talk[]
+  eventos      Evento[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Evento {
+  id              String     @id @default(cuid())
+  slug            String     @unique
+  titulo          String
+  descripcion     String     @db.Text
+  fecha           DateTime
+  lugar           String?
+  modalidad       Modalidad
+  cupoLimitado    Boolean    @default(false)
+  linkInscripcion String?
+  estado          Estado     @default(BORRADOR)
+  aliado          Partner?   @relation(fields: [aliadoId], references: [id])
+  aliadoId        String?
+  ponentes        Invitado[]
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@index([estado, fecha])
+}
+
+model Partner {
+  id           String       @id @default(cuid())
+  nombre       String       @unique
+  logoUrl      String?
+  logoPublicId String?
+  web          String?
+  nivel        NivelPartner
+  orden        Int          @default(0)
+  activo       Boolean      @default(true)
+  eventos      Evento[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}

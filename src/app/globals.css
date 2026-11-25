@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* El tema oscuro se activa con la clase .dark en <html> (botón del header + preferencia del sistema). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Colores semánticos: cambian según el tema. */
+:root {
+  color-scheme: light;
+  --fondo: #f4f5fb;
+  --superficie: #fefdfd;
+  --texto: #1b1d3b;
+  --titulo: #111966;
+  --borde: rgb(17 25 102 / 0.12);
+  --suave: rgb(17 25 102 / 0.06);
+}
+
+.dark {
+  color-scheme: dark;
+  --fondo: #080b33;
+  --superficie: #121852;
+  --texto: #e6e7f2;
+  --titulo: #fefdfd;
+  --borde: rgb(254 253 253 / 0.12);
+  --suave: rgb(254 253 253 / 0.08);
+}
+
+@theme inline {
+  /* Paleta oficial de Talks Portuarios */
+  --color-marino: #111966; /* principal */
+  --color-marino-oscuro: #0b1049;
+  --color-magenta: #e60d55; /* secundario */
+  --color-magenta-oscuro: #c20a47;
+  --color-claro: #fefdfd; /* terciario */
+
+  /* Semánticos (ver :root / .dark) */
+  --color-fondo: var(--fondo);
+  --color-superficie: var(--superficie);
+  --color-texto: var(--texto);
+  --color-titulo: var(--titulo);
+  --color-borde: var(--borde);
+  --color-suave: var(--suave);
+
+  --font-sans: var(--font-montserrat);
+  --font-script: var(--font-dancing);
+}
+
+body {
+  background: var(--fondo);
+  color: var(--texto);
+}
