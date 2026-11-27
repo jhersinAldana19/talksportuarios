@@ -1,36 +1,51 @@
 @import "tailwindcss";
 
+/* Perfiles de Chrome/Edge de pruebas locales; no escanear (bloquean Turbopack). */
+@source not "../../tmp-verificacion";
+
 /* El tema oscuro se activa con la clase .dark en <html> (botón del header + preferencia del sistema). */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Colores semánticos: cambian según el tema. */
+/*
+  Marca (primario / secundario / terciario).
+  Por defecto = oficial Talks Portuarios. El layout puede sobrescribir
+  --brand-* desde la BD (panel → Marca).
+*/
 :root {
   color-scheme: light;
+  --brand-primario: #111966;
+  --brand-secundario: #e60d55;
+  --brand-terciario: #fefdfd;
+  --brand-primario-oscuro: #0b1049;
+  --brand-secundario-oscuro: #c20a47;
+
   --fondo: #f4f5fb;
   --superficie: #fefdfd;
   --texto: #1b1d3b;
-  --titulo: #111966;
-  --borde: rgb(17 25 102 / 0.12);
-  --suave: rgb(17 25 102 / 0.06);
+  --titulo: var(--brand-primario);
+  --borde: color-mix(in srgb, var(--brand-primario) 12%, transparent);
+  --suave: color-mix(in srgb, var(--brand-primario) 6%, transparent);
+  --panel: color-mix(in srgb, var(--brand-primario) 12%, #fefdfd);
 }
 
 .dark {
   color-scheme: dark;
-  --fondo: #080b33;
-  --superficie: #121852;
+  --fondo: color-mix(in srgb, var(--brand-primario) 72%, #000);
+  --superficie: color-mix(in srgb, var(--brand-primario) 55%, #000);
   --texto: #e6e7f2;
-  --titulo: #fefdfd;
-  --borde: rgb(254 253 253 / 0.12);
-  --suave: rgb(254 253 253 / 0.08);
+  --titulo: var(--brand-terciario);
+  --borde: color-mix(in srgb, var(--brand-terciario) 12%, transparent);
+  --suave: color-mix(in srgb, var(--brand-terciario) 8%, transparent);
+  --panel: color-mix(in srgb, var(--brand-terciario) 8%, transparent);
 }
 
 @theme inline {
-  /* Paleta oficial de Talks Portuarios */
-  --color-marino: #111966; /* principal */
-  --color-marino-oscuro: #0b1049;
-  --color-magenta: #e60d55; /* secundario */
-  --color-magenta-oscuro: #c20a47;
-  --color-claro: #fefdfd; /* terciario */
+  /* Alias de marca (primario = marino, secundario = magenta, terciario = claro) */
+  --color-marino: var(--brand-primario);
+  --color-marino-oscuro: var(--brand-primario-oscuro);
+  --color-magenta: var(--brand-secundario);
+  --color-magenta-oscuro: var(--brand-secundario-oscuro);
+  --color-claro: var(--brand-terciario);
 
   /* Semánticos (ver :root / .dark) */
   --color-fondo: var(--fondo);
@@ -39,12 +54,261 @@
   --color-titulo: var(--titulo);
   --color-borde: var(--borde);
   --color-suave: var(--suave);
+  --color-panel: var(--panel);
 
-  --font-sans: var(--font-montserrat);
+  --font-sans: var(--font-roboto);
   --font-script: var(--font-dancing);
 }
 
 body {
   background: var(--fondo);
   color: var(--texto);
+}
+
+/* Inputs y controles heredan Roboto del body (el navegador no lo hace solo). */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/*
+  .boton va fuera de @layer: en este proyecto Turbopack a veces no emite
+  cambios nuevos dentro de @layer components, y el navegador sigue con el CSS viejo.
+*/
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-magenta);
+  color: var(--color-claro);
+  border: 0;
+  padding: 0.85rem 1.4rem;
+  font-size: 0.9375rem;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+.boton:hover {
+  background: var(--color-magenta-oscuro);
+}
+
+.boton:focus-visible {
+  outline: 2px solid var(--color-claro);
+  outline-offset: 3px;
+}
+
+/*
+  Kit de formularios del sitio (público + panel). Fuera de @layer: mismo motivo que .boton.
+  Fondo suave (#eef0f8) sobre superficies blancas → contraste; esquinas redondeadas.
+*/
+.etiqueta-admin {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--titulo);
+}
+
+.campo-admin {
+  display: block;
+  margin-top: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgb(17 25 102 / 0.18);
+  border-radius: 0.65rem;
+  background-color: #eef0f8;
+  color: var(--texto);
+  padding: 0.75rem 0.9rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.4;
+  outline: none;
+  box-shadow: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.dark .campo-admin {
+  background-color: color-mix(in srgb, var(--brand-terciario) 8%, transparent);
+  border-color: rgb(254 253 253 / 0.22);
+  box-shadow: none;
+}
+
+.campo-admin::placeholder {
+  color: color-mix(in srgb, var(--texto) 42%, transparent);
+}
+
+.campo-admin:hover {
+  border-color: rgb(17 25 102 / 0.35);
+  background-color: #e8ebf6;
+}
+
+.dark .campo-admin:hover {
+  border-color: rgb(254 253 253 / 0.4);
+  background-color: color-mix(in srgb, var(--brand-terciario) 12%, transparent);
+}
+
+.campo-admin:focus-visible {
+  border-color: var(--color-marino);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-magenta) 28%, transparent);
+}
+
+.dark .campo-admin:focus-visible {
+  background-color: color-mix(in srgb, var(--brand-terciario) 10%, transparent);
+}
+
+.campo-admin:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Formularios cortos: nombre / correo / contraseña (no a todo el ancho). */
+.formulario-corto {
+  width: 100%;
+  max-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.25rem;
+}
+.formulario-corto .boton {
+  width: auto;
+  align-self: flex-start;
+}
+/* Excepción: login — inputs y botón a todo el ancho del panel. */
+.formulario-login {
+  width: 100%;
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.25rem;
+}
+.formulario-login .boton {
+  width: 100%;
+  align-self: stretch;
+}
+/* Identidad + contraseñas en dos columnas (escritorio); en móvil una debajo de otra. */
+.formulario-corto.es-duo {
+  max-width: 42rem;
+}
+.formulario-corto-duo {
+  display: grid;
+  gap: 1.25rem;
+}
+@media (min-width: 640px) {
+  .formulario-corto-duo {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+.formulario-corto-duo > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+/* Contraseña con botón ojo (CampoContrasena). */
+.campo-contrasena {
+  position: relative;
+  margin-top: 0.5rem;
+}
+.campo-contrasena .campo-admin {
+  margin-top: 0;
+  padding-right: 2.75rem;
+}
+.campo-contrasena-ojo {
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: color-mix(in srgb, var(--texto) 62%, transparent);
+  cursor: pointer;
+}
+.campo-contrasena-ojo:hover {
+  color: var(--titulo);
+  background: color-mix(in srgb, var(--brand-primario) 6%, transparent);
+}
+.campo-contrasena-ojo:focus-visible {
+  outline: 2px solid var(--color-magenta);
+  outline-offset: 1px;
+}
+
+textarea.campo-admin {
+  min-height: 7rem;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+select.campo-admin {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23111966' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 0.75rem;
+  padding-right: 2.35rem;
+}
+
+.dark select.campo-admin {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23fefdfd' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.ayuda-admin {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--texto) 68%, transparent);
+}
+
+.alerta-admin {
+  border-left: 2px solid var(--color-magenta);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.875rem;
+  color: var(--color-magenta);
+  background: color-mix(in srgb, var(--color-magenta) 6%, var(--superficie));
+}
+
+@layer components {
+  .enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-titulo);
+  }
+
+  .enlace:hover {
+    color: var(--color-magenta);
+  }
+
+  .enlace:focus-visible {
+    outline: 2px solid var(--color-magenta);
+    outline-offset: 3px;
+  }
 }

@@ -24,6 +24,11 @@ enum Estado {
   PUBLICADO
 }
 
+enum EstadoBeca {
+  REALIZADA
+  PROXIMA
+}
+
 enum Modalidad {
   PRESENCIAL
   VIRTUAL
@@ -33,6 +38,14 @@ enum NivelPartner {
   PARTNER_FUNDADOR
   PARTNER
   ALIADO
+}
+
+/// Entrada del carrusel Destacados del inicio.
+enum TipoDestacado {
+  TALK
+  EVENTO
+  ALIADO
+  ENLACE
 }
 
 // ─── Modelos ─────────────────────────────────────────────
@@ -56,11 +69,16 @@ model Talk {
   patrocinado      Boolean    @default(false)
   /// Resumen/puntos clave de ejemplo, pendientes de revisar con la transcripción real.
   contenidoProvisional Boolean @default(false)
+  /// Para el carrusel Destacados del inicio (admin futuro).
+  destacado        Boolean    @default(false)
+  ordenDestacado   Int?
   invitados        Invitado[]
+  destacados       Destacado[]
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
 
   @@index([estado, fechaPublicacion])
+  @@index([destacado, ordenDestacado])
 }
 
 model Invitado {
@@ -90,25 +108,139 @@ model Evento {
   cupoLimitado    Boolean    @default(false)
   linkInscripcion String?
   estado          Estado     @default(BORRADOR)
+  /// Para el carrusel Destacados del inicio (admin futuro).
+  destacado       Boolean    @default(false)
+  ordenDestacado  Int?
   aliado          Partner?   @relation(fields: [aliadoId], references: [id])
   aliadoId        String?
   ponentes        Invitado[]
+  destacados      Destacado[]
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 
   @@index([estado, fecha])
+  @@index([destacado, ordenDestacado])
 }
 
 model Partner {
-  id           String       @id @default(cuid())
-  nombre       String       @unique
-  logoUrl      String?
-  logoPublicId String?
-  web          String?
-  nivel        NivelPartner
-  orden        Int          @default(0)
-  activo       Boolean      @default(true)
-  eventos      Evento[]
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id                String       @id @default(cuid())
+  nombre            String       @unique
+  /// Ficha pública en /aliados/[slug]. Vacío si el partner no tiene página.
+  slug              String?      @unique
+  logoUrl           String?
+  logoPublicId      String?
+  web               String?
+  /// Frase del hero: qué aporta la alianza.
+  frase             String?
+  /// «Quiénes son», dos o tres líneas.
+  descripcion       String?      @db.Text
+  /// Beneficios para la comunidad. Texto, sin precios.
+  beneficios        String[]     @default([])
+  /// Comisión o pago: los enlaces salen con rel="sponsored" y la etiqueta visible.
+  relacionComercial Boolean      @default(false)
+  /// La ficha /aliados solo se publica con PUBLICADO, slug y nivel ALIADO.
+  estado            Estado       @default(BORRADOR)
+  nivel             NivelPartner
+  orden             Int          @default(0)
+  activo            Boolean      @default(true)
+  eventos           Evento[]
+  cursos            CursoAliado[]
+  becas             BecaAliado[]
+  destacados        Destacado[]
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+}
+
+/// Diapositiva del carrusel Destacados del inicio (máx. 4 activos vigentes en público).
+model Destacado {
+  id             String        @id @default(cuid())
+  tipo           TipoDestacado
+  orden          Int           @default(0)
+  activo         Boolean       @default(true)
+  /// Titular personalizado; si vacío se usa el del Talk/Evento/Aliado.
+  tituloCustom   String?
+  /// Texto del botón; si vacío se usa el CTA por defecto del tipo.
+  ctaCustom      String?
+  /// URL http(s) o ruta en /public. Cloudinary más adelante.
+  imagenUrl      String?
+  imagenPublicId String?
+  /// Obligatorio si tipo = ENLACE.
+  hrefLibre      String?
+  fechaDesde     DateTime?
+  fechaHasta     DateTime?
+  patrocinado    Boolean       @default(false)
+  talk           Talk?         @relation(fields: [talkId], references: [id], onDelete: Cascade)
+  talkId         String?
+  evento         Evento?       @relation(fields: [eventoId], references: [id], onDelete: Cascade)
+  eventoId       String?
+  partner        Partner?      @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  partnerId      String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([activo, orden])
+  @@index([fechaDesde, fechaHasta])
+}
+
+/// Curso del aliado que Talks recomienda. La URL es la ficha original, sin UTM ni precio.
+model CursoAliado {
+  id        String   @id @default(cuid())
+  partner   Partner  @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  partnerId String
+  slug      String
+  titulo    String
+  url       String
+  resumen   String?
+  gratuito  Boolean  @default(false)
+  orden     Int      @default(0)
+  activo    Boolean  @default(true)
+  becas     BecaAliado[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([partnerId, slug])
+}
+
+/// Sorteo o beca de un aliado, pasado o anunciado. Sin montos.
+model BecaAliado {
+  id          String     @id @default(cuid())
+  partner     Partner    @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  partnerId   String
+  curso       CursoAliado? @relation(fields: [cursoId], references: [id], onDelete: SetNull)
+  cursoId     String?
+  titulo      String
+  descripcion String     @db.Text
+  fecha       DateTime?
+  estado      EstadoBeca
+  orden       Int        @default(0)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+/// Administrador del panel. No hay registro público: se crea desde Usuarios o con el seed.
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  nombre       String
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+/// Marca del sitio (singleton id = "sitio"). Colores, logo y hero editables desde el panel.
+model ConfiguracionSitio {
+  id              String   @id @default("sitio")
+  /// Primario (marino). Hex #RRGGBB.
+  colorPrimario   String
+  /// Secundario (magenta).
+  colorSecundario String
+  /// Terciario (claro).
+  colorTerciario  String
+  /// Logo personalizado (ruta /… o URL). Null = logo SVG de marca.
+  logoUrl         String?
+  /// Imagen hero del inicio.
+  heroUrl         String
+  /// Copia JSON del estado anterior (deshacer un cambio).
+  respaldoJson    String?  @db.Text
+  updatedAt       DateTime @updatedAt
 }

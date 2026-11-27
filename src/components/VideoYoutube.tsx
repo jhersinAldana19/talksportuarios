@@ -10,7 +10,7 @@ export function VideoYoutube({ youtubeId, titulo }: { youtubeId: string; titulo:
 
   if (activo) {
     return (
-      <div className="relative aspect-video overflow-hidden rounded-2xl bg-black">
+      <div className="relative aspect-video overflow-hidden bg-black">
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
           title={titulo}
@@ -26,7 +26,7 @@ export function VideoYoutube({ youtubeId, titulo }: { youtubeId: string; titulo:
     <button
       type="button"
       onClick={() => setActivo(true)}
-      className="group relative block aspect-video w-full overflow-hidden rounded-2xl bg-marino"
+      className="group relative block aspect-video w-full overflow-hidden bg-marino focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta"
       aria-label={`Reproducir video: ${titulo}`}
     >
       <Image
@@ -38,7 +38,7 @@ export function VideoYoutube({ youtubeId, titulo }: { youtubeId: string; titulo:
         priority
       />
       <span className="absolute inset-0 flex items-center justify-center">
-        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-magenta text-white shadow-xl transition-transform group-hover:scale-110 sm:h-20 sm:w-20">
+        <span className="flex h-16 w-16 items-center justify-center bg-magenta text-white sm:h-20 sm:w-20">
           <svg viewBox="0 0 24 24" className="ml-1 h-8 w-8" fill="currentColor" aria-hidden="true">
             <path d="M8 5v14l11-7z" />
           </svg>

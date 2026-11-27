@@ -1,6 +1,5 @@
-// Logo de Talks Portuarios (bandera de olas + globo de diálogo), trazado en SVG a partir de
-// docs/marca/logo-talks-portuarios.webp. Las franjas usan el color de títulos del tema
-// (azul en tema claro, blanco en oscuro); la franja inferior es siempre magenta.
+// Logo de Talks Portuarios. Por defecto: SVG de marca (olas + globo magenta).
+// Si hay logoUrl en la configuración del sitio, se muestra esa imagen.
 
 export function MarcaTalks({ className = "h-9 w-9", claro = false }: { className?: string; claro?: boolean }) {
   return (
@@ -17,11 +16,27 @@ export function MarcaTalks({ className = "h-9 w-9", claro = false }: { className
   );
 }
 
-export function Logo({ claro = false }: { claro?: boolean }) {
+export function Logo({
+  claro = false,
+  logoUrl = null,
+}: {
+  claro?: boolean;
+  /** Imagen personalizada desde panel Marca. Null = SVG oficial. */
+  logoUrl?: string | null;
+}) {
   return (
     <span className="flex items-center gap-2">
-      <MarcaTalks className="h-8 w-9 shrink-0" claro={claro} />
-      <span className={`font-script text-2xl leading-none font-bold ${claro ? "text-claro" : "text-titulo"}`}>
+      {logoUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={logoUrl}
+          alt=""
+          className={`h-8 w-auto max-w-[10rem] object-contain ${claro ? "brightness-0 invert" : ""}`}
+        />
+      ) : (
+        <MarcaTalks className="h-8 w-9 shrink-0" claro={claro} />
+      )}
+      <span className={`font-script text-xl leading-none font-bold sm:text-2xl ${claro ? "text-claro" : "text-titulo"}`}>
         Talks Portuarios
       </span>
     </span>

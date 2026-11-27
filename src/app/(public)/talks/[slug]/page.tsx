@@ -69,60 +69,56 @@ export default async function TalkPage({ params }: PageProps<"/talks/[slug]">) {
       <JsonLd datos={videoObject} />
 
       <nav aria-label="Ruta" className="mb-6 text-sm">
-        <Link href="/talks" className="font-semibold text-titulo hover:text-magenta">
-          ← Todos los Talks
+        <Link
+          href="/talks"
+          className="font-medium text-titulo underline decoration-titulo/30 underline-offset-4 hover:decoration-magenta focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta"
+        >
+          Todos los Talks
         </Link>
       </nav>
 
-      <header className="mb-6 space-y-3">
-        <div className="flex flex-wrap gap-2 text-xs font-semibold">
-          <span className="rounded-full bg-suave px-2.5 py-0.5 text-titulo">
-            {etiquetaSerieEdicion(talk.serie, talk.edicion)}
-          </span>
-          {talk.patrocinado && (
-            <span className="rounded-full bg-magenta/10 px-2.5 py-0.5 text-magenta">
-              Contenido patrocinado
-            </span>
-          )}
-        </div>
-        <h1 className="text-2xl leading-tight font-bold text-titulo sm:text-4xl">{talk.titulo}</h1>
-        <p className="text-sm text-texto/70">
+      <header className="mb-6">
+        <h1 className="max-w-3xl text-2xl leading-tight font-medium tracking-tight text-titulo sm:text-4xl">
+          {talk.titulo}
+        </h1>
+        <p className="mt-3 text-sm leading-relaxed text-texto/70">
+          {etiquetaSerieEdicion(talk.serie, talk.edicion)}.{" "}
           <time dateTime={talk.fechaPublicacion.toISOString()}>
             {formatearFecha(talk.fechaPublicacion)}
-          </time>{" "}
-          · {formatearDuracion(talk.duracionMin)}
+          </time>
+          . {formatearDuracion(talk.duracionMin)}.
         </p>
+        {talk.patrocinado && (
+          <p className="mt-2 text-sm font-medium text-magenta">Contenido patrocinado</p>
+        )}
       </header>
 
       <VideoYoutube youtubeId={talk.youtubeId} titulo={talk.titulo} />
 
       {talk.contenidoProvisional && (
-        <p className="mt-6 rounded-xl bg-suave px-4 py-3 text-sm text-titulo">
-          <strong>Resumen provisional.</strong> Este resumen y sus puntos clave se completarán
-          con la transcripción del Talk.
+        <p className="mt-6 max-w-prose text-sm leading-relaxed text-texto/80">
+          <strong className="font-semibold text-titulo">Resumen provisional.</strong> Este resumen
+          y sus puntos clave se completarán con la transcripción del Talk.
         </p>
       )}
 
       <div className="mt-8 grid gap-10 md:grid-cols-[1fr_16rem]">
         <div className="space-y-8">
           <section aria-labelledby="titulo-resumen">
-            <h2 id="titulo-resumen" className="mb-3 text-xl font-bold text-titulo">
+            <h2 id="titulo-resumen" className="mb-3 text-xl font-semibold text-titulo">
               Resumen
             </h2>
-            <p className="leading-relaxed text-texto/90">{talk.resumen}</p>
+            <p className="max-w-prose leading-relaxed text-texto/90">{talk.resumen}</p>
           </section>
 
           {talk.puntosClave.length > 0 && (
             <section aria-labelledby="titulo-puntos">
-              <h2 id="titulo-puntos" className="mb-3 text-xl font-bold text-titulo">
+              <h2 id="titulo-puntos" className="mb-3 text-xl font-semibold text-titulo">
                 Puntos clave
               </h2>
-              <ul className="space-y-2">
+              <ul className="max-w-prose list-disc space-y-2 pl-5 text-texto/90">
                 {talk.puntosClave.map((p) => (
-                  <li key={p} className="flex gap-3 text-texto/90">
-                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-magenta" aria-hidden="true" />
-                    {p}
-                  </li>
+                  <li key={p}>{p}</li>
                 ))}
               </ul>
             </section>
@@ -132,16 +128,16 @@ export default async function TalkPage({ params }: PageProps<"/talks/[slug]">) {
         <aside className="space-y-6">
           {talk.invitados.length > 0 && (
             <section aria-labelledby="titulo-invitados">
-              <h2 id="titulo-invitados" className="mb-3 text-sm font-bold tracking-wide text-titulo uppercase">
+              <h2 id="titulo-invitados" className="text-base font-semibold text-titulo">
                 {talk.invitados.length === 1 ? "Invitado" : "Invitados"}
               </h2>
-              <ul className="space-y-3">
+              <ul className="mt-3 space-y-4">
                 {talk.invitados.map((i) => (
-                  <li key={i.slug} className="rounded-xl bg-superficie p-4 ring-1 ring-borde">
-                    <p className="font-bold text-titulo">{i.nombre}</p>
+                  <li key={i.slug}>
+                    <p className="font-medium text-titulo">{i.nombre}</p>
                     {(i.cargo || i.empresa) && (
                       <p className="text-sm text-texto/70">
-                        {[i.cargo, i.empresa].filter(Boolean).join(" · ")}
+                        {[i.cargo, i.empresa].filter(Boolean).join(", ")}
                       </p>
                     )}
                   </li>
@@ -152,14 +148,12 @@ export default async function TalkPage({ params }: PageProps<"/talks/[slug]">) {
 
           {talk.tags.length > 0 && (
             <section aria-labelledby="titulo-temas">
-              <h2 id="titulo-temas" className="mb-3 text-sm font-bold tracking-wide text-titulo uppercase">
+              <h2 id="titulo-temas" className="text-base font-semibold text-titulo">
                 Temas
               </h2>
-              <ul className="flex flex-wrap gap-2">
+              <ul className="mt-3 space-y-1 text-sm text-texto/80">
                 {talk.tags.map((t) => (
-                  <li key={t} className="rounded-full bg-suave px-3 py-1 text-xs font-semibold text-titulo">
-                    {t}
-                  </li>
+                  <li key={t}>{t}</li>
                 ))}
               </ul>
             </section>
@@ -169,7 +163,7 @@ export default async function TalkPage({ params }: PageProps<"/talks/[slug]">) {
             href={`https://www.youtube.com/watch?v=${talk.youtubeId}`}
             target="_blank"
             rel="noopener"
-            className="block rounded-full bg-marino px-5 py-2.5 text-center text-sm font-bold text-white transition-colors hover:bg-marino-oscuro dark:bg-magenta dark:hover:bg-magenta-oscuro"
+            className="enlace"
           >
             Ver en YouTube
           </a>

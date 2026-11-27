@@ -1,6 +1,6 @@
 # Plan por fases
 
-> **Fase actual: 1 completada (demo local) → siguiente: 1b**. Actualiza esta línea cuando cambies de fase.
+> **Fase actual: 1b**. Panel con login y CRUD de Talks, invitados, eventos y partners. Sigue Cloudinary.
 
 ## Fase 0 — Preparación (30 min)
 
@@ -34,7 +34,11 @@ Datos reales (fuente: `docs/datos-reales.json`, ver `docs/DATOS_REALES.md`):
 
 ## Fase 1b — Completar la versión 1
 
-- [ ] Panel `/admin` con login (Auth.js): CRUD de Talks, Invitados, Eventos, Partners
+- [x] Panel `/admin` con login (Auth.js): CRUD de Talks, Invitados, Eventos, Partners
+- [x] Fichas `/aliados` y `/aliados/[slug]` (Sarmiento Academia publicada; sin precios; UTM y JSON-LD)
+- [x] `/formacion` desde la tarjeta Formación y Talento (cursos, becas y Talks con certificado)
+- [x] Marca del sitio editable (colores CSS vars, logo, hero; deshacer / restaurar oficial)
+- [x] Módulo `/admin/configuracion`: Mi cuenta, Marca del sitio y Acceso (admins)
 - [ ] Subida de imágenes a Cloudinary
 - [ ] Blog: modelo Articulo + listado + detalle
 - [ ] Páginas: /invitados/[slug], /partners, /nosotros

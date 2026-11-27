@@ -1,6 +1,6 @@
 // Utilidades de formato (sin dependencias de servidor: usables en cliente y servidor).
 
-import type { Serie, NivelPartner, Modalidad } from "@/generated/prisma/enums";
+import type { Serie, NivelPartner, Modalidad, TipoDestacado } from "@/generated/prisma/enums";
 
 const ZONA = "America/Lima";
 
@@ -49,14 +49,23 @@ export const ETIQUETA_SERIE: Record<Serie, string> = {
   EDICION_ESPECIAL: "Edición Especial",
 };
 
-/** ("TALKS", 25) → "Talks · 25.ª edición"; sin edición → "Talks" */
+/** ("TALKS", 25) → "Talks, 25.ª edición"; sin edición → "Talks" */
 export function etiquetaSerieEdicion(serie: Serie, edicion: number | null): string {
-  return edicion ? `${ETIQUETA_SERIE[serie]} · ${edicion}.ª edición` : ETIQUETA_SERIE[serie];
+  return edicion ? `${ETIQUETA_SERIE[serie]}, ${edicion}.ª edición` : ETIQUETA_SERIE[serie];
 }
 
 /** Fecha en Lima como "AAAA-MM-DD" (para JSON-LD cuando la hora no está confirmada). */
 export function fechaISOLima(fecha: Date): string {
   return new Intl.DateTimeFormat("en-CA", { timeZone: ZONA }).format(fecha);
+}
+
+/** "AAAA-MM-DD" a mediodía en Lima. Null si el día no existe. */
+export function fechaMediodiaLima(valor: string): Date | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(valor)) return null;
+  const fecha = new Date(`${valor}T12:00:00-05:00`);
+  if (Number.isNaN(fecha.getTime())) return null;
+  if (fechaISOLima(fecha) !== valor) return null;
+  return fecha;
 }
 
 export const ETIQUETA_NIVEL: Record<NivelPartner, string> = {
@@ -68,4 +77,11 @@ export const ETIQUETA_NIVEL: Record<NivelPartner, string> = {
 export const ETIQUETA_MODALIDAD: Record<Modalidad, string> = {
   PRESENCIAL: "Presencial",
   VIRTUAL: "Virtual",
+};
+
+export const ETIQUETA_TIPO_DESTACADO: Record<TipoDestacado, string> = {
+  TALK: "Talk",
+  EVENTO: "Evento",
+  ALIADO: "Aliado",
+  ENLACE: "Enlace libre",
 };

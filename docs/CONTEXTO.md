@@ -56,4 +56,4 @@ Los resúmenes y puntos clave del seed son de ejemplo hasta tener las transcripc
 ## Aliados conocidos
 
 - COEX PUCP
-- Academia Sarmiento (cursos online de logística portuaria y agenciamiento)
+- Sarmiento Academia (cursos online de logística portuaria y agenciamiento)

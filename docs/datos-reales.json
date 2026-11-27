@@ -16,22 +16,70 @@
       "nombre": "TECPORT",
       "nivel": "PARTNER_FUNDADOR",
       "web": null,
-      "logoUrl": null,
-      "nota": "Distribuidor regional de equipos portuarios (reach stackers, etc.) con operaciones en Perú, Chile y Brasil. Completar web y logo oficiales."
+      "logoUrl": "/partners/tecport.webp",
+      "nota": "Distribuidor regional de equipos portuarios (reach stackers, etc.) con operaciones en Perú, Chile y Brasil. Completar web oficial."
     },
     {
       "nombre": "COEX PUCP",
       "nivel": "ALIADO",
       "web": null,
-      "logoUrl": null,
-      "nota": "Aliado del encuentro presencial del 16 de diciembre. Completar web y logo."
+      "logoUrl": "/partners/coex-pucp.webp",
+      "nota": "Aliado del encuentro presencial del 16 de diciembre. Completar web."
     },
     {
-      "nombre": "Academia Sarmiento",
+      "nombre": "Sarmiento Academia",
       "nivel": "ALIADO",
       "web": "https://sarmientoacademia.com",
-      "logoUrl": null,
-      "nota": "Cursos online de logística portuaria y agenciamiento."
+      "logoUrl": "/partners/sarmiento.webp",
+      "slug": "sarmiento-academia",
+      "frase": "Cursos online del sector marítimo y portuario para la comunidad, con becas y avisos por WhatsApp.",
+      "descripcion": "Sarmiento Academia es la plataforma de cursos de Sarmiento Consultores. Las clases son 100 % online, con acceso a cualquier hora, evaluación por módulo y certificado digital. Está pensada para personal operativo, técnicos, estudiantes y profesionales del sector marítimo, portuario y logístico.",
+      "beneficios": [
+        "Avisos de cursos de logística, agenciamiento y operaciones que Talks Portuarios comparte con la comunidad.",
+        "Becas integrales sorteadas entre quienes participan en los anuncios de la alianza.",
+        "Certificado digital en los cursos de la academia."
+      ],
+      "estado": "PUBLICADO",
+      "cursos": [
+        {
+          "slug": "logistica-portuaria",
+          "titulo": "Logística Portuaria",
+          "ruta": "/cursos/logistica-portuaria",
+          "resumen": "Fundamentos de la logística portuaria, sus operaciones y el flujo de mercancías en el terminal.",
+          "gratuito": false
+        },
+        {
+          "slug": "introduccion-al-agenciamiento",
+          "titulo": "Introducción al Agenciamiento",
+          "ruta": "/cursos/introduccion-al-agenciamiento",
+          "resumen": "El rol del agente marítimo, quiénes intervienen en la atención de una nave y el ciclo de una escala hasta el zarpe.",
+          "gratuito": false
+        },
+        {
+          "slug": "tipos-de-contenedores-maritimos",
+          "titulo": "Tipos de Contenedores Marítimos",
+          "ruta": "/cursos/tipos-de-contenedores-maritimos",
+          "resumen": "Curso gratuito (certificado opcional).",
+          "gratuito": true
+        },
+        {
+          "slug": "fletamento-maritimo-y-terminos-de-embarque-chartering",
+          "titulo": "Fletamento Marítimo y Términos de Embarque (Chartering)",
+          "ruta": "/cursos/fletamento-maritimo-y-terminos-de-embarque-chartering",
+          "resumen": "Incluye certificado al aprobar.",
+          "gratuito": false
+        }
+      ],
+      "becas": [
+        {
+          "titulo": "5 becas integrales de Fletamento Marítimo",
+          "descripcion": "Sorteo del 6 de noviembre de 2026 entre quienes siguieron a Talks Portuarios y a Sarmiento Academia en LinkedIn y participaron en la publicación. Los ganadores se anunciaron en el grupo de WhatsApp y en el canal de difusión. El curso incluye certificado.",
+          "fecha": "2026-11-06",
+          "estado": "REALIZADA",
+          "cursoSlug": "fletamento-maritimo-y-terminos-de-embarque-chartering"
+        }
+      ],
+      "nota": "Cursos online de logística portuaria y agenciamiento. Sin precios fijos en el sitio."
     }
   ],
   "eventos": [

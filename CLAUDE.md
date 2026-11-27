@@ -77,7 +77,7 @@ docs/
 - **Invitado**: id, slug, nombre, cargo, empresa, bio, fotoUrl, linkedinUrl.
 - **Evento**: id, slug, titulo, descripcion, fecha, lugar, modalidad (`PRESENCIAL` | `VIRTUAL`), cupoLimitado (bool), aliado (opcional), linkInscripcion, estado.
 - **Articulo**: id, slug, titulo, extracto, contenido, portadaUrl, categoria (`NOTICIA` | `ENTREVISTA` | `OPINION` | `CRONICA_EVENTO`), autor, fechaPublicacion, estado, patrocinado, talkRelacionado (opcional).
-- **Partner**: id, nombre, logoUrl, web, nivel (`PARTNER_FUNDADOR` | `PARTNER` | `ALIADO`), orden, activo. TECPORT = `PARTNER_FUNDADOR`. COEX PUCP y Academia Sarmiento = `ALIADO`.
+- **Partner**: id, nombre, logoUrl, web, nivel (`PARTNER_FUNDADOR` | `PARTNER` | `ALIADO`), orden, activo. TECPORT = `PARTNER_FUNDADOR`. COEX PUCP y Sarmiento Academia = `ALIADO`.
 - **Empresa** (directorio, fase posterior): nombre, rubro, descripcion, web, logoUrl, destacada.
 - **Admin**: usuarios del panel.
 

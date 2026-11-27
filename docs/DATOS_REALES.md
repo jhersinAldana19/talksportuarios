@@ -28,7 +28,7 @@ Los datos estructurados están en `docs/datos-reales.json`: úsalo para reemplaz
 | Empresa de Sheila Samamé | Solo dice "una importante empresa del rubro" |
 | Número de edición de 3 Talks de 2024 (Chartering, LinkedIn, Operadores de Comercio Exterior) | No lo indican (probablemente 2ª, 4ª y 5ª) |
 | Fotos de invitados | Recortes de las miniaturas o pedirlas |
-| Logos y webs de TECPORT y COEX PUCP | Pedir archivos oficiales. Academia Sarmiento: sarmientoacademia.com |
+| Logos y webs de TECPORT y COEX PUCP | Pedir archivos oficiales. Sarmiento Academia: sarmientoacademia.com |
 | Paleta y logo oficiales de Talks Portuarios | Pendiente |
 | Resúmenes y puntos clave reales | Generar desde las transcripciones de YouTube (Fase 2 con MCP, o manualmente) |
 

@@ -6,7 +6,7 @@
 
 import { CLAVE_TEMA } from "@/lib/tema";
 
-export function BotonTema() {
+export function BotonTema({ sobreOscuro = false }: { sobreOscuro?: boolean }) {
   function alternar() {
     const oscuro = document.documentElement.classList.toggle("dark");
     try {
@@ -20,7 +20,9 @@ export function BotonTema() {
     <button
       type="button"
       onClick={alternar}
-      className="flex h-10 w-10 items-center justify-center rounded-lg text-titulo transition-colors hover:bg-suave"
+      className={`flex h-10 w-10 items-center justify-center rounded-lg transition-colors ${
+        sobreOscuro ? "text-claro hover:bg-white/10" : "text-titulo hover:bg-suave"
+      }`}
       title="Cambiar tema claro / oscuro"
     >
       <span className="sr-only">Cambiar tema claro / oscuro</span>

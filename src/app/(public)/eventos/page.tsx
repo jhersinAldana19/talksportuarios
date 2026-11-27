@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { EventoCard } from "@/components/EventoCard";
+import { EventoDestacado, LineaEvento } from "@/components/EventoCard";
 import { JsonLd } from "@/components/JsonLd";
 import { fechaISOLima } from "@/lib/formato";
 import { SITIO } from "@/lib/sitio";
@@ -42,21 +42,27 @@ export default async function EventosPage() {
       {datosEstructurados.length > 0 && <JsonLd datos={datosEstructurados} />}
 
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-titulo sm:text-4xl">Próximos eventos</h1>
-        <p className="mt-3 text-texto/80">
-          Encuentros presenciales y actividades para aprender, compartir y conectar con la
-          comunidad. Los cupos son limitados: inscríbete por WhatsApp.
+        <h1 className="text-2xl font-medium tracking-tight text-titulo sm:text-3xl">Próximos eventos</h1>
+        <p className="mt-3 max-w-prose text-texto/80">
+          Una visita a bordo y el primer encuentro presencial, ambos con cupo por WhatsApp.
         </p>
       </header>
 
       {eventos.length > 0 ? (
-        <div className="space-y-6">
-          {eventos.map((e) => (
-            <EventoCard key={e.id} evento={e} />
-          ))}
+        <div>
+          <EventoDestacado evento={eventos[0]} />
+          {eventos.length > 1 && (
+            <ul className="mt-8 border-t border-borde">
+              {eventos.slice(1).map((evento) => (
+                <li key={evento.id} className="border-b border-borde">
+                  <LineaEvento evento={evento} />
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       ) : (
-        <p className="rounded-2xl bg-superficie p-6 text-texto/70 ring-1 ring-borde">
+        <p className="text-texto/75">
           Pronto anunciaremos nuevos eventos. Síguenos en LinkedIn o escríbenos por WhatsApp
           para enterarte primero.
         </p>

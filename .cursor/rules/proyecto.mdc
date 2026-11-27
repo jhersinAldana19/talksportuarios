@@ -1,0 +1,31 @@
+---
+description: Contexto del proyecto Talks Portuarios (siempre activo)
+alwaysApply: true
+---
+
+# Contexto obligatorio
+
+Este proyecto se empezó con Claude Code y continúa en Cursor. Toda la documentación del proyecto ya existe en el repo. **Antes de proponer o escribir código, lee y respeta:**
+
+1. `CLAUDE.md`: qué es el proyecto, stack, reglas de arquitectura, estructura, modelo de datos, identidad visual, comandos y forma de trabajar. Aunque se llame "CLAUDE", **aplica igual a Cursor**: trátalo como el documento principal de reglas.
+2. `AGENTS.md`: aviso de Next.js 16. Esta versión tiene cambios importantes; consulta `node_modules/next/dist/docs/` antes de usar APIs de Next que no conozcas bien.
+3. `docs/CONTEXTO.md`: negocio y estrategia (TECPORT, Talks Portuarios, SEO/GEO, transparencia del patrocinio).
+4. `docs/FASES.md`: plan por fases y **fase actual**. Mantenlo actualizado marcando lo que se complete.
+5. `docs/DATOS_REALES.md` y `docs/datos-reales.json`: datos reales (36 Talks, invitados, eventos, partners) y lo que falta conseguir.
+
+# Estado actual (25/11/2026)
+
+- Fase 0 y Fase 1 completas. Fase 1b en curso: panel `/admin` con login, CRUD y Configuración (cuenta, marca, acceso).
+- Siguiente dentro de 1b: subida de imágenes a Cloudinary. El sitio público ya tiene la línea visual editorial (títulos en peso medio, enlaces en mayúsculas, bloques `bg-panel`). El panel sigue esa misma línea.
+- Repo en GitHub: `tecportglobal2026-bit/talksportuarios`.
+
+# Reglas críticas (resumen; el detalle está en CLAUDE.md)
+
+- Next.js 16 (App Router) + TypeScript + Tailwind 4 + Prisma 7.10.1 (fijado; config en `prisma7.config.ts`, cliente en `src/generated/prisma`, adapter `@prisma/adapter-pg`) + PostgreSQL local en Windows **sin Docker**.
+- Páginas públicas = Server Components con el contenido en el HTML inicial (SEO/GEO). `"use client"` solo para piezas interactivas.
+- La lógica de negocio va en `src/services/`; páginas, server actions, route handlers y el futuro MCP la reutilizan.
+- Contenido generado por IA siempre como `BORRADOR`; contenido patrocinado siempre etiquetado.
+- Usar los colores semánticos de `globals.css` (soporta modo oscuro), no colores fijos.
+- No commitear `.env`. No actualizar Prisma ni Next de versión mayor sin preguntar.
+- Cambios pequeños y verificables; correr `npm run build` y `npm run lint` antes de dar algo por terminado.
+- Responder en español y explicar brevemente lo nuevo de Next.js (el desarrollador viene de Express + React con Vite).

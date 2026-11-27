@@ -2,20 +2,22 @@
 // (ver docs/DATOS_REALES.md). Ejecutar con: npx prisma db seed
 //
 // Es idempotente: Talks por youtubeId, invitados por slug, eventos por slug y partners
-// por nombre. Al final elimina invitados que no tengan ningún Talk ni evento.
+// por slug (o por nombre si no tienen slug). Al final elimina invitados que no tengan ningún Talk ni evento.
 //
 // Resúmenes: se usa el campo `tema` como resumen PROVISIONAL (contenidoProvisional = true)
 // hasta tenerlos desde las transcripciones. No se inventan puntos clave ni tags.
 //
-// OJO: cuando exista el panel /admin, re-ejecutar el seed sobrescribe los campos de
-// estos registros con los del JSON.
+// OJO: re-ejecutar el seed sobrescribe los campos de estos registros con los del JSON.
+// El administrador del panel es distinto: solo se crea si el correo no existe y nunca
+// se le pisa la contraseña. Hace falta ADMIN_EMAIL, ADMIN_NOMBRE y ADMIN_PASSWORD.
 
 import "dotenv/config";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { hash } from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
-import type { Modalidad, NivelPartner, Serie } from "../src/generated/prisma/enums";
+import type { Estado, EstadoBeca, Modalidad, NivelPartner, Serie } from "../src/generated/prisma/enums";
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
@@ -45,7 +47,27 @@ type EventoJson = {
   aliado: string | null;
   invitados?: string[];
 };
-type PartnerJson = { nombre: string; nivel: NivelPartner; web: string | null; logoUrl: string | null };
+type CursoJson = { slug: string; titulo: string; ruta: string; resumen: string | null; gratuito: boolean };
+type BecaJson = {
+  titulo: string;
+  descripcion: string;
+  fecha: string | null;
+  estado: EstadoBeca;
+  cursoSlug: string | null;
+};
+type PartnerJson = {
+  nombre: string;
+  nivel: NivelPartner;
+  web: string | null;
+  logoUrl: string | null;
+  slug?: string;
+  frase?: string;
+  descripcion?: string;
+  beneficios?: string[];
+  estado?: Estado;
+  cursos?: CursoJson[];
+  becas?: BecaJson[];
+};
 type DatosReales = { talks: TalkJson[]; eventos: EventoJson[]; partners: PartnerJson[] };
 
 const datos: DatosReales = JSON.parse(
@@ -88,14 +110,79 @@ const DESCRIPCION_EVENTO: Record<string, string> = {
 // ─── Ejecución ───────────────────────────────────────────
 
 async function main() {
-  // Partners
+  const soloPartners = process.argv.includes("--solo-partners");
+
+  // Partners y, si el JSON los trae, la ficha /aliados con cursos y becas.
   for (const [i, p] of datos.partners.entries()) {
-    const campos = { nivel: p.nivel, web: p.web, logoUrl: p.logoUrl, orden: i + 1, activo: true };
-    await prisma.partner.upsert({
-      where: { nombre: p.nombre },
-      update: campos,
-      create: { nombre: p.nombre, ...campos },
-    });
+    const campos = {
+      nivel: p.nivel,
+      web: p.web,
+      logoUrl: p.logoUrl,
+      orden: i + 1,
+      activo: true,
+      ...(p.slug !== undefined && { slug: p.slug }),
+      ...(p.frase !== undefined && { frase: p.frase }),
+      ...(p.descripcion !== undefined && { descripcion: p.descripcion }),
+      ...(p.beneficios !== undefined && { beneficios: p.beneficios }),
+      ...(p.estado !== undefined && { estado: p.estado }),
+    };
+    const previo = p.slug
+      ? await prisma.partner.findUnique({ where: { slug: p.slug }, select: { id: true } })
+      : await prisma.partner.findUnique({ where: { nombre: p.nombre }, select: { id: true } });
+    const partner = previo
+      ? await prisma.partner.update({ where: { id: previo.id }, data: { nombre: p.nombre, ...campos } })
+      : await prisma.partner.create({ data: { nombre: p.nombre, ...campos } });
+
+    if (!p.web || !p.cursos) continue;
+    for (const [orden, curso] of p.cursos.entries()) {
+      await prisma.cursoAliado.upsert({
+        where: { partnerId_slug: { partnerId: partner.id, slug: curso.slug } },
+        update: {
+          titulo: curso.titulo,
+          url: new URL(curso.ruta, p.web).toString(),
+          resumen: curso.resumen,
+          gratuito: curso.gratuito,
+          orden,
+          activo: true,
+        },
+        create: {
+          partnerId: partner.id,
+          slug: curso.slug,
+          titulo: curso.titulo,
+          url: new URL(curso.ruta, p.web).toString(),
+          resumen: curso.resumen,
+          gratuito: curso.gratuito,
+          orden,
+        },
+      });
+    }
+
+    if (!p.becas) continue;
+    await prisma.becaAliado.deleteMany({ where: { partnerId: partner.id } });
+    for (const [orden, beca] of p.becas.entries()) {
+      const curso = beca.cursoSlug
+        ? await prisma.cursoAliado.findUnique({
+            where: { partnerId_slug: { partnerId: partner.id, slug: beca.cursoSlug } },
+            select: { id: true },
+          })
+        : null;
+      await prisma.becaAliado.create({
+        data: {
+          partnerId: partner.id,
+          cursoId: curso?.id,
+          titulo: beca.titulo,
+          descripcion: beca.descripcion,
+          fecha: beca.fecha ? new Date(`${beca.fecha}T12:00:00-05:00`) : null,
+          estado: beca.estado,
+          orden,
+        },
+      });
+    }
+  }
+
+  if (soloPartners) {
+    console.log("Seed OK → solo partners y fichas de aliados");
+    return;
   }
 
   // Invitados (deduplicados). El JSON viene del Talk más reciente al más antiguo,
@@ -185,14 +272,41 @@ async function main() {
     where: { talks: { none: {} }, eventos: { none: {} } },
   });
 
-  const [nt, ne, np, ni] = await Promise.all([
+  await crearAdminInicial();
+
+  const [nt, ne, np, ni, na] = await Promise.all([
     prisma.talk.count(),
     prisma.evento.count(),
     prisma.partner.count(),
     prisma.invitado.count(),
+    prisma.admin.count(),
   ]);
-  console.log(`Seed OK → ${nt} talks, ${ne} eventos, ${np} partners, ${ni} invitados`);
+  console.log(`Seed OK → ${nt} talks, ${ne} eventos, ${np} partners, ${ni} invitados, ${na} admins`);
   console.log(`Limpieza → ${eventosBorrados.count} eventos antiguos, ${invitadosBorrados.count} invitados huérfanos eliminados`);
+}
+
+// Misma regla que src/services/admins.ts. El seed no importa ese archivo: tsx no
+// resuelve el alias @/ y el cliente de la app arrastra el paquete server-only.
+async function crearAdminInicial() {
+  const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const nombre = process.env.ADMIN_NOMBRE?.trim();
+  const password = process.env.ADMIN_PASSWORD;
+  if (!email || !nombre || !password) {
+    console.log("Admin: faltan ADMIN_EMAIL, ADMIN_NOMBRE o ADMIN_PASSWORD; no se crea.");
+    return;
+  }
+  if (password.length < 8) {
+    console.log("Admin: la contraseña debe tener al menos 8 caracteres; no se crea.");
+    return;
+  }
+  const existente = await prisma.admin.findUnique({ where: { email }, select: { id: true } });
+  if (existente) {
+    console.log(`Admin: ${email} ya existe; no se cambia la contraseña.`);
+    return;
+  }
+  const passwordHash = await hash(password, 12);
+  await prisma.admin.create({ data: { email, nombre, passwordHash } });
+  console.log(`Admin creado: ${email}`);
 }
 
 main()

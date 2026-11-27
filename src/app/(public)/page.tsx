@@ -1,173 +1,242 @@
 import Image from "next/image";
 import Link from "next/link";
-import { EventoCard } from "@/components/EventoCard";
-import { ETIQUETA_NIVEL, etiquetaSerieEdicion, formatearDuracion, miniaturaYoutube } from "@/lib/formato";
-import { SITIO } from "@/lib/sitio";
-import { listarProximosEventos } from "@/services/eventos";
+import { DestacadosCarrusel } from "@/components/DestacadosCarrusel";
+import { FranjaSecciones } from "@/components/FranjaSecciones";
+import { ETIQUETA_MODALIDAD, ETIQUETA_NIVEL, ETIQUETA_SERIE, etiquetaSerieEdicion, formatearFecha, miniaturaYoutube, partesFecha } from "@/lib/formato";
+import { SITIO, enlaceWhatsapp } from "@/lib/sitio";
+import { Serie } from "@/generated/prisma/enums";
+import { obtenerMarca } from "@/services/configuracion";
+import { listarDestacadosInicio } from "@/services/destacados";
+import { listarProximosEventos, type EventoConRelaciones } from "@/services/eventos";
 import { listarPartnersActivos } from "@/services/partners";
-import { obtenerUltimoTalk } from "@/services/talks";
+import { listarTalksPublicados } from "@/services/talks";
 
 export default async function InicioPage() {
-  const [ultimoTalk, eventos, partners] = await Promise.all([
-    obtenerUltimoTalk(),
-    listarProximosEventos(2),
+  const [talks, eventos, partners, destacados, marca] = await Promise.all([
+    listarTalksPublicados(),
+    listarProximosEventos(),
     listarPartnersActivos(),
+    listarDestacadosInicio(),
+    obtenerMarca(),
   ]);
 
-  const fundadores = partners.filter((p) => p.nivel === "PARTNER_FUNDADOR");
-  const otros = partners.filter((p) => p.nivel !== "PARTNER_FUNDADOR");
+  const ultimos = talks.slice(0, 3);
+
+  const logos = partners.flatMap((partner) => {
+    const src = partner.logoUrl ?? logoLocal(partner.nombre);
+    return src
+      ? [{ id: partner.id, nombre: partner.nombre, web: partner.web, slug: partner.slug, estado: partner.estado, nivel: partner.nivel, src }]
+      : [];
+  });
 
   return (
     <>
-      {/* ─── Hero ─── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-marino-oscuro via-marino to-marino text-white">
-        <svg
-          className="absolute -bottom-1 left-0 w-full text-fondo"
-          viewBox="0 0 1440 80"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path d="M0 40c240-40 480-40 720 0s480 40 720 0v40H0Z" fill="currentColor" />
-        </svg>
-        <div className="relative mx-auto max-w-6xl px-4 pt-16 pb-24 sm:pt-24 sm:pb-32">
-          <p className="mb-4 text-sm font-semibold tracking-widest text-white/70 uppercase">
-            Comunidad marítimo-portuaria del Perú · desde {SITIO.fundacion}
-          </p>
-          <h1 className="max-w-3xl text-4xl leading-tight font-bold sm:text-6xl">
-            <span className="font-script text-5xl text-white sm:text-7xl">Talks Portuarios</span>
-            <span className="mt-3 block text-2xl font-semibold text-white/90 sm:text-3xl">
-              {SITIO.lema}
-            </span>
+      <section className="relative isolate flex min-h-[20rem] w-full min-w-0 items-center py-8 sm:min-h-[22rem] lg:min-h-[24rem]">
+        <Image
+          src={marca.heroUrl}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[64%_center] md:object-[72%_center]"
+          unoptimized={marca.heroUrl.startsWith("http")}
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[linear-gradient(90deg,rgb(8_12_40/0.72)_0%,rgb(8_12_40/0.4)_42%,transparent_68%)] md:bg-[linear-gradient(90deg,rgb(8_12_40/0.45)_0%,transparent_42%)]"
+        />
+        <div className="relative mx-auto flex w-full min-w-0 max-w-6xl flex-col px-4">
+          <h1 className="max-w-xl text-3xl font-medium leading-[1.15] tracking-tight text-claro sm:text-5xl">
+            Charlas para la comunidad marítimo-portuaria del Callao
           </h1>
-          <p className="mt-6 max-w-2xl text-base text-white/80 sm:text-lg">
-            Charlas con expertos del sector, eventos presenciales y contenido para quienes hacen
-            posible el comercio exterior desde el Callao.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/talks"
-              className="rounded-full bg-magenta px-6 py-3 font-bold text-white transition-colors hover:bg-magenta-oscuro"
-            >
-              Ver los Talks
-            </Link>
-            <Link
-              href="/eventos"
-              className="rounded-full px-6 py-3 font-bold text-white ring-2 ring-white/40 transition-colors hover:bg-white/10"
-            >
-              Próximos eventos
-            </Link>
-          </div>
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-claro/85 sm:mt-5 sm:text-base">{SITIO.lema}</p>
+          <Link href="/talks" className="boton mt-6 self-start sm:mt-8">
+            Ver últimos talks
+          </Link>
         </div>
       </section>
 
-      {/* ─── Último Talk ─── */}
-      {ultimoTalk && (
-        <section className="mx-auto max-w-6xl px-4 py-12 sm:py-16" aria-labelledby="titulo-ultimo-talk">
-          <h2 id="titulo-ultimo-talk" className="mb-6 text-2xl font-bold text-titulo sm:text-3xl">
-            Último Talk
-          </h2>
-          <article className="grid overflow-hidden rounded-2xl bg-superficie shadow-sm ring-1 ring-borde md:grid-cols-2">
-            <Link href={`/talks/${ultimoTalk.slug}`} className="relative block aspect-video md:aspect-auto">
-              <Image
-                src={miniaturaYoutube(ultimoTalk.youtubeId)}
-                alt=""
-                fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-cover"
-                priority
-              />
-            </Link>
-            <div className="flex flex-col gap-3 p-6 sm:p-8">
-              <p className="text-sm font-semibold text-magenta">
-                {etiquetaSerieEdicion(ultimoTalk.serie, ultimoTalk.edicion)} ·{" "}
-                {formatearDuracion(ultimoTalk.duracionMin)}
-              </p>
-              <h3 className="text-xl font-bold leading-snug text-titulo sm:text-2xl">
-                <Link href={`/talks/${ultimoTalk.slug}`} className="hover:text-magenta">
-                  {ultimoTalk.titulo}
-                </Link>
-              </h3>
-              {ultimoTalk.invitados.length > 0 && (
-                <p className="text-sm font-semibold text-texto/80">
-                  Con {ultimoTalk.invitados.map((i) => i.nombre).join(", ")}
-                </p>
-              )}
-              <p className="text-texto/80">{ultimoTalk.resumen}</p>
-              <Link
-                href={`/talks/${ultimoTalk.slug}`}
-                className="mt-auto w-fit rounded-full bg-marino px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-marino-oscuro dark:bg-magenta dark:hover:bg-magenta-oscuro"
-              >
-                Ver el Talk
-              </Link>
-            </div>
-          </article>
-        </section>
-      )}
+      <FranjaSecciones />
 
-      {/* ─── Próximos eventos ─── */}
-      <section className="bg-suave" aria-labelledby="titulo-eventos">
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
-          <div className="mb-6 flex items-end justify-between gap-4">
-            <h2 id="titulo-eventos" className="text-2xl font-bold text-titulo sm:text-3xl">
-              Próximos eventos
-            </h2>
-            <Link href="/eventos" className="text-sm font-bold text-magenta hover:underline">
-              Ver todos →
+      <section className="mx-auto grid max-w-6xl gap-10 px-4 py-8 sm:py-12 lg:grid-cols-[minmax(0,1.45fr)_minmax(16rem,0.8fr)] lg:items-start">
+        <div>
+          <div className="flex items-baseline justify-between gap-4">
+            <h2 className="text-2xl font-medium text-titulo">Últimos Talks</h2>
+            <Link href="/talks" className="text-sm font-semibold text-magenta hover:text-magenta-oscuro">
+              Ver todos
             </Link>
           </div>
+          {ultimos.length > 0 ? (
+            <ul className="mt-4 border-t border-borde">
+              {ultimos.map((talk) => (
+                <li key={talk.id} className="border-b border-borde">
+                  <Link href={`/talks/${talk.slug}`} className="flex gap-4 py-4">
+                    <Image
+                      src={miniaturaYoutube(talk.youtubeId)}
+                      alt=""
+                      width={160}
+                      height={90}
+                      className="h-14 w-24 shrink-0 rounded-[10px] object-cover sm:h-16 sm:w-28"
+                    />
+                    <span className="min-w-0">
+                      <span className="block text-sm text-texto/60">{etiquetaSerieEdicion(talk.serie, talk.edicion)}</span>
+                      <span className="mt-1 block font-medium leading-snug text-titulo">{talk.titulo}</span>
+                      <span className="mt-1 block text-sm text-texto/70">
+                        {talk.invitados.length > 0
+                          ? talk.invitados.map((invitado) => invitado.nombre).join(", ")
+                          : formatearFecha(talk.fechaPublicacion)}
+                      </span>
+                      {talk.patrocinado && (
+                        <span className="mt-1 block text-sm text-magenta">Contenido patrocinado</span>
+                      )}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-4 text-texto/70">Todavía no hay Talks publicados.</p>
+          )}
+          <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2" aria-label="Series">
+            {(Object.keys(ETIQUETA_SERIE) as Serie[]).map((serie) => (
+              <li key={serie}>
+                <Link href={`/talks#${serie}`} className="text-sm font-medium text-titulo hover:text-magenta">
+                  {ETIQUETA_SERIE[serie]}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <DestacadosCarrusel slides={destacados} />
+        </div>
+
+        <div>
+          <h2 className="text-2xl font-medium text-titulo">Próximos eventos</h2>
           {eventos.length > 0 ? (
-            <div className="grid gap-6 lg:grid-cols-2">
-              {eventos.map((e) => (
-                <EventoCard key={e.id} evento={e} />
+            <div className="mt-4 space-y-4">
+              {eventos.map((evento) => (
+                <EventoAgenda key={evento.id} evento={evento} />
               ))}
             </div>
           ) : (
-            <p className="text-texto/70">Pronto anunciaremos nuevos eventos.</p>
+            <p className="mt-4 text-texto/70">Pronto anunciaremos el próximo evento.</p>
           )}
+          <Link href="/eventos" className="enlace mt-6">
+            Todos los eventos
+          </Link>
         </div>
       </section>
 
-      {/* ─── Partners ─── */}
-      {partners.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-12 sm:py-16" aria-labelledby="titulo-partners">
-          <h2 id="titulo-partners" className="mb-2 text-2xl font-bold text-titulo sm:text-3xl">
-            Partners y aliados
-          </h2>
-          <p className="mb-8 text-texto/70">
-            Organizaciones que hacen posible Talks Portuarios.
-          </p>
-
-          <div className="space-y-6">
-            {fundadores.map((p) => (
-              <div
-                key={p.id}
-                className="flex flex-col items-start gap-1 rounded-2xl bg-marino p-6 text-white ring-1 ring-borde sm:flex-row sm:items-center sm:justify-between"
-              >
-                <span className="text-2xl font-bold tracking-wide">{p.nombre}</span>
-                <span className="rounded-full bg-magenta px-3 py-1 text-xs font-bold tracking-wide uppercase">
-                  {ETIQUETA_NIVEL[p.nivel]}
-                </span>
-              </div>
-            ))}
-
-            {otros.length > 0 && (
-              <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {otros.map((p) => (
-                  <li
-                    key={p.id}
-                    className="flex items-center justify-between rounded-2xl bg-superficie p-5 ring-1 ring-borde"
-                  >
-                    <span className="font-bold text-titulo">{p.nombre}</span>
-                    <span className="text-xs font-semibold text-magenta uppercase">
-                      {ETIQUETA_NIVEL[p.nivel]}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+      {logos.length > 0 && (
+        <section aria-label="Partners y aliados" className="py-8">
+          <h2 className="sr-only">Partners y aliados</h2>
+          <ul className="mx-auto grid w-full min-w-0 max-w-3xl grid-cols-3 items-center gap-3 px-4 py-2 sm:max-w-4xl sm:gap-10">
+            {logos.map((partner) => {
+              const ficha = partner.estado === "PUBLICADO" && partner.slug ? `/aliados/${partner.slug}` : null;
+              const logo = <LogoPartner nombre={partner.nombre} src={partner.src} nivel={partner.nivel} />;
+              return (
+                <li key={partner.id} className="min-w-0">
+                  {ficha ? (
+                    <Link href={ficha} className="block min-w-0">
+                      {logo}
+                    </Link>
+                  ) : partner.web ? (
+                    <a href={partner.web} target="_blank" rel="noopener" className="block min-w-0">
+                      {logo}
+                    </a>
+                  ) : (
+                    logo
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </section>
       )}
+
+      <BandaCierre evento={eventos[0]} />
     </>
+  );
+}
+
+function logoLocal(nombre: string): string | null {
+  if (nombre === "TECPORT") return "/partners/tecport.webp";
+  if (nombre === "COEX PUCP") return "/partners/coex-pucp.webp";
+  if (nombre === "Sarmiento Academia") return "/partners/sarmiento.webp";
+  return null;
+}
+
+function LogoPartner({ nombre, src, nivel }: { nombre: string; src: string; nivel: keyof typeof ETIQUETA_NIVEL }) {
+  // En el inicio no mostramos "Partner fundador"; solo Aliado / Partner.
+  const etiqueta = nivel === "PARTNER_FUNDADOR" ? null : ETIQUETA_NIVEL[nivel];
+  return (
+    <span className="block min-w-0 text-center">
+      <img src={src} alt={nombre} className="mx-auto block h-12 w-full min-w-0 max-w-full object-contain sm:h-16" />
+      {etiqueta ? <span className="mt-2 block text-[0.68rem] text-texto/60">{etiqueta}</span> : null}
+    </span>
+  );
+}
+
+function BandaCierre({ evento }: { evento: EventoConRelaciones | undefined }) {
+  if (!evento) {
+    return (
+      <section className="border-t border-borde bg-suave">
+        <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-medium text-titulo">Únete a la comunidad</p>
+          <a href={enlaceWhatsapp()} target="_blank" rel="noopener" className="boton shrink-0">
+            Unirme al WhatsApp
+          </a>
+        </div>
+      </section>
+    );
+  }
+
+  const fecha = partesFecha(evento.fecha);
+
+  return (
+    <section className="border-t border-borde bg-suave">
+      <div className="mx-auto flex max-w-6xl flex-col items-start gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+        <p className="min-w-0">
+          <span className="text-sm text-texto/70">
+            {fecha.dia} {fecha.mes.toLocaleLowerCase("es-PE")}
+          </span>
+          <span className="mt-1 block font-medium leading-snug text-titulo">{evento.titulo}</span>
+        </p>
+        {evento.linkInscripcion ? (
+          <a href={evento.linkInscripcion} target="_blank" rel="noopener" className="boton shrink-0">
+            Inscribirme
+          </a>
+        ) : (
+          <Link href="/eventos" className="boton shrink-0">
+            Ver eventos
+          </Link>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function EventoAgenda({ evento }: { evento: EventoConRelaciones }) {
+  const fecha = partesFecha(evento.fecha);
+
+  return (
+    <article className="rounded-[10px] border border-borde p-5">
+      <p className="text-titulo">
+        <span className="block text-4xl font-medium leading-none tracking-tight">{fecha.dia.padStart(2, "0")}</span>
+        <span className="mt-1 block text-[0.68rem] font-semibold tracking-[0.14em] uppercase">{fecha.mes}</span>
+      </p>
+      <p className="mt-3 text-sm text-texto/70">{ETIQUETA_MODALIDAD[evento.modalidad]}</p>
+      <h3 className="mt-1 font-medium leading-snug text-titulo">{evento.titulo}</h3>
+      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-texto/80">{evento.descripcion}</p>
+      {evento.linkInscripcion ? (
+        <a href={evento.linkInscripcion} target="_blank" rel="noopener" className="boton mt-5">
+          Inscribirme
+        </a>
+      ) : (
+        <Link href="/eventos" className="enlace mt-5">
+          Ver eventos
+        </Link>
+      )}
+    </article>
   );
 }

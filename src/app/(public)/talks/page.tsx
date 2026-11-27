@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ListaTalksFiltrable } from "@/components/ListaTalksFiltrable";
 import type { TalkResumen } from "@/components/TalkCard";
+import { fechaISOLima } from "@/lib/formato";
 import { listarTalksPublicados } from "@/services/talks";
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default async function TalksPage() {
     edicion: t.edicion,
     youtubeId: t.youtubeId,
     duracionMin: t.duracionMin,
+    fechaPublicacion: fechaISOLima(t.fechaPublicacion),
     patrocinado: t.patrocinado,
     invitados: t.invitados.map((i) => ({ nombre: i.nombre })),
   }));
@@ -29,11 +31,9 @@ export default async function TalksPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
       <header className="mb-8 max-w-3xl">
-        <h1 className="text-3xl font-bold text-titulo sm:text-4xl">Talks</h1>
-        <p className="mt-3 text-texto/80">
-          {resumen.length} conversaciones en vivo con profesionales del sector
-          marítimo-portuario. Cada Talk tiene su página con el video, un resumen y sus
-          invitados para que puedas aprender y volver a consultarlo cuando lo necesites.
+        <h1 className="text-2xl font-medium tracking-tight text-titulo sm:text-3xl">Talks</h1>
+        <p className="mt-3 max-w-prose leading-relaxed text-texto/80">
+          Tres series del archivo: Talks, Next Generation y Edición especial.
         </p>
       </header>
 
