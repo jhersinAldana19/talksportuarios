@@ -4,5 +4,9 @@
 
 export const CLAVE_TEMA = "tema";
 
-/** Se ejecuta en el <head> antes del primer pintado: aplica la clase "dark" sin parpadeo. */
-export const SCRIPT_TEMA = `(function(){try{var t=localStorage.getItem("${CLAVE_TEMA}");var o=t?t==="oscuro":window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",o)}catch(e){}})()`;
+/**
+ * Se ejecuta en el <head> antes del primer pintado.
+ * Claro por defecto (no mira prefers-color-scheme). Solo oscuro si el usuario
+ * lo eligió con el botón y quedó guardado en localStorage.
+ */
+export const SCRIPT_TEMA = `(function(){try{var t=localStorage.getItem("${CLAVE_TEMA}");document.documentElement.classList.toggle("dark",t==="oscuro")}catch(e){}})()`;

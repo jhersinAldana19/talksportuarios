@@ -1,8 +1,8 @@
 "use client";
 
 // Alterna tema claro/oscuro. El tema inicial lo aplica SCRIPT_TEMA (lib/tema.ts, en el
-// <head>) antes del primer pintado; este botón solo cambia la clase y guarda la elección.
-// El icono se decide con CSS (dark:), así el HTML del servidor y del cliente coinciden.
+// <head>): claro por defecto; solo oscuro si localStorage tiene "oscuro". Este botón
+// cambia la clase y guarda la elección. El icono se decide con CSS (dark:).
 
 import { CLAVE_TEMA } from "@/lib/tema";
 

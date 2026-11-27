@@ -1,12 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { miniaturaYoutube } from "@/lib/formato";
 
 // Carga diferida: primero la miniatura (ligera); el iframe de YouTube solo al hacer clic.
+// Con Cache Components (Activity) la ruta anterior puede quedar montada pero oculta:
+// el cleanup del efecto se ejecuta al ocultarla y quitamos el iframe para cortar el audio.
 export function VideoYoutube({ youtubeId, titulo }: { youtubeId: string; titulo: string }) {
   const [activo, setActivo] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      setActivo(false);
+    };
+  }, [youtubeId]);
 
   if (activo) {
     return (
