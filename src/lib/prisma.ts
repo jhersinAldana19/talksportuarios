@@ -14,7 +14,12 @@ const globalParaPrisma = globalThis as unknown as {
 const PRISMA_REV = "configuracion-sitio-2";
 
 function crearCliente() {
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+  // En Vercel/serverless preferir el pooler; en local basta DATABASE_URL.
+  const connectionString = process.env.DATABASE_URL_POOLED || process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error("Falta DATABASE_URL_POOLED o DATABASE_URL");
+  }
+  const adapter = new PrismaPg({ connectionString });
   return new PrismaClient({ adapter });
 }
 
