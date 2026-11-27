@@ -1,18 +1,18 @@
-/** Valores oficiales de marca (respaldo si la BD no tiene fila o se restaura). */
-export const MARCA_OFICIAL = {
-  colorPrimario: "#111966",
-  colorSecundario: "#e60d55",
-  colorTerciario: "#fefdfd",
-  logoUrl: null as string | null,
-  heroUrl: "/hero-puerto-2880.webp",
-} as const;
-
 export type MarcaSitio = {
   colorPrimario: string;
   colorSecundario: string;
   colorTerciario: string;
   logoUrl: string | null;
   heroUrl: string;
+};
+
+/** Valores oficiales de marca (respaldo si la BD no tiene fila o se restaura). */
+export const MARCA_OFICIAL: MarcaSitio = {
+  colorPrimario: "#111966",
+  colorSecundario: "#e60d55",
+  colorTerciario: "#fefdfd",
+  logoUrl: null,
+  heroUrl: "/hero-puerto-2880.webp",
 };
 
 export type RespaldoMarca = MarcaSitio;

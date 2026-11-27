@@ -19,7 +19,9 @@ function crearCliente() {
   if (!connectionString) {
     throw new Error("Falta DATABASE_URL_POOLED o DATABASE_URL");
   }
-  const adapter = new PrismaPg({ connectionString });
+  // Pool pequeño: el build de Next abre varios workers y los poolers
+  // (Supabase / Prisma Postgres) suelen limitar a ~15 sesiones.
+  const adapter = new PrismaPg({ connectionString, max: 1 });
   return new PrismaClient({ adapter });
 }
 

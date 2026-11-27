@@ -119,7 +119,7 @@ function resolverImagenRuta(url: string | null | undefined): { imagen: string; i
   return imagenUsableParaCarrusel(url);
 }
 
-function aSlide(fila: DestacadoAdmin, heroUrl = MARCA_OFICIAL.heroUrl): DestacadoSlide | null {
+function aSlide(fila: DestacadoAdmin, heroUrl: string = MARCA_OFICIAL.heroUrl): DestacadoSlide | null {
   const customImg = resolverImagenRuta(fila.imagenUrl);
   const tituloBase =
     fila.tituloCustom?.trim() ||
